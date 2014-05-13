@@ -99,7 +99,7 @@ _**CAUTION: reserved for internal use**_
 If there are messages in the buffer, sends the message to `self.hostname:self.port` via HTTPS over the currently open connection. The request looks like:
 
 ```
-GET /?<self.capability>&<data> HTTP/1.1\r\n
+GET /?<self.capability>&<message> HTTP/1.1\r\n
 HOST: <self.hostname>\r\n
 \r\n
 ```
