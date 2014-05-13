@@ -62,7 +62,7 @@ drifter.send("service=mysql&server=db15&unit=B&value=17");
 
   * [new Drifter(config)](#new-drifterconfig)
   * [drifter.connect()](#drifterconnect)
-  * [drifter.send(data)](#driftersenddata)
+  * [drifter.send(message)](#driftersendmessage)
   * [drifter.sendMessages()](#driftersendmessages)
   * [Event 'data'](#event-data)
   * [Event 'error'](#event-error)
