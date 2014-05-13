@@ -1,6 +1,6 @@
 {
   "name": "drifter-sender",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Send logs, telemetry, or events to drifter.",
   "scripts": {
     "inject-examples": "node scripts/injectExamples.js",
