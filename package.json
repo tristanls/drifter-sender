@@ -1,0 +1,27 @@
+{
+  "name": "drifter-sender",
+  "version": "0.0.0",
+  "description": "Send logs, telemetry, or events to drifter.",
+  "scripts": {
+    "inject-examples": "node scripts/injectExamples.js",
+    "test": "node scripts/test.js"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "nodeunit": "0.8.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tristanls/drifter-sender.git"
+  },
+  "keywords": [
+    "log",
+    "event",
+    "collection",
+    "infrastructure",
+    "sender",
+    "drifter"
+  ],
+  "author": "Tristan Slominski <tristan.slominski@gmail.com>",
+  "license": "MIT"
+}
