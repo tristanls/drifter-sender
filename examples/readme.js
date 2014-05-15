@@ -35,6 +35,7 @@ var Drifter = require('drifter-sender');
 var drifter = new Drifter({
     capability: '02hAozGflu',
     hostname: 'localhost',
+    path: '/1/log',
     port: 4443
 });
 
@@ -54,11 +55,11 @@ drifter.on('telemetry', function (telemetry) {
 });
 
 drifter.send("uri=encoded&data=to_send");
-// GET /?02hAozGflu&uri=encoded&data=toSend HTTP/1.1\r\n
+// GET /1/log?02hAozGflu&uri=encoded&data=to_send HTTP/1.1\r\n
 // Host: localhost\r\n
 // \r\n
 
 drifter.send("service=mysql&server=db15&unit=B&value=17");
-// GET /?02hAozGflu&service=mysql&server=db15&unit=B&value=17 HTTP/1.1\r\n
+// GET /1/log?02hAozGflu&service=mysql&server=db15&unit=B&value=17 HTTP/1.1\r\n
 // Host: localhost\r\n
 // \r\n

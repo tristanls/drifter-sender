@@ -48,6 +48,7 @@ var TELEMETRY_SECURE_CONNECT = 'module=' + TELEMETRY_MODULE
   * `config`: _Object_ _(Default: undefined)_
     * `capability`: _String_ The capability string to use.
     * `hostname`: _String_ Drifter hostname to connect to.
+    * `path`: _String_ Drifter path to connect to.
     * `port`: _Number_ _(Default: 443)_ Port to connect to.
 */
 var Drifter = module.exports = function Drifter(config) {
@@ -61,6 +62,7 @@ var Drifter = module.exports = function Drifter(config) {
     self.connecting = false;
     self.connection = null;
     self.hostname = config.hostname;
+    self.path = config.path;
     self.port = config.port;
     self.timers = {
         secureConnect: null
@@ -111,8 +113,8 @@ Drifter.prototype.connect = function connect() {
 };
 
 /*
-  * `message`: _String_ URI encoded data to send. For example: "foo=bar", or
-      "service=mysql&server=db15&unit=B&value=17"
+  * `message`: _String_ URI encoded data to send. For example: `foo=bar`, or
+      `service=mysql&server=db15&unit=B&value=17`
 */
 Drifter.prototype.send = function send(message) {
     var self = this;
@@ -129,7 +131,7 @@ Drifter.prototype.send = function send(message) {
   _**CAUTION: reserved for internal use**_
 
   Sends messages to self.hostname:self.port via HTTPS:
-  GET /?<self.capability>&<data> HTTP/1.1\r\n
+  GET <self.path>?<self.capability>&<message> HTTP/1.1\r\n
   HOST: <self.hostname>\r\n
   \r\n
 */
@@ -144,8 +146,8 @@ Drifter.prototype.sendMessages = function sendMessages() {
 
     var message = self.buffer.shift();
 
-    self.connection.write('GET /?' + self.capability + '&' + message +
-        ' HTTP/1.1\r\n');
+    self.connection.write('GET ' + self.path + '?' + self.capability + '&' +
+        message + ' HTTP/1.1\r\n');
     self.connection.write('Host: ' + self.hostname + '\r\n');
     self.connection.write('\r\n');
 

@@ -24,6 +24,7 @@ var Drifter = require('drifter-sender');
 var drifter = new Drifter({
     capability: '02hAozGflu',
     hostname: 'localhost',
+    path: '/1/log',
     port: 4443
 });
 
@@ -43,12 +44,12 @@ drifter.on('telemetry', function (telemetry) {
 });
 
 drifter.send("uri=encoded&data=to_send");
-// GET /?02hAozGflu&uri=encoded&data=toSend HTTP/1.1\r\n
+// GET /1/log?02hAozGflu&uri=encoded&data=to_send HTTP/1.1\r\n
 // Host: localhost\r\n
 // \r\n
 
 drifter.send("service=mysql&server=db15&unit=B&value=17");
-// GET /?02hAozGflu&service=mysql&server=db15&unit=B&value=17 HTTP/1.1\r\n
+// GET /1/log?02hAozGflu&service=mysql&server=db15&unit=B&value=17 HTTP/1.1\r\n
 // Host: localhost\r\n
 // \r\n
 
@@ -73,6 +74,7 @@ drifter.send("service=mysql&server=db15&unit=B&value=17");
 * `config`: _Object_ _(Default: undefined)_
   * `capability`: _String_ The capability string to use.
   * `hostname`: _String_ Drifter hostname to connect to.
+  * `path`: _String_ Drifter path to connect to.
   * `port`: _Number_ _(Default: 443)_ Port to connect to.
 
 Creates a new Drifter sender instance.
@@ -87,8 +89,7 @@ Creates a TLS connection to `self.hostname:self.port` and sends all the messages
 
 ### drifter.send(message)
 
-* `message`: _String_ URI encoded data to send. For example: "foo=bar", or
-    "service=mysql&server=db15&unit=B&value=17"
+* `message`: _String_ URI encoded data to send. For example: `foo=bar`, or `service=mysql&server=db15&unit=B&value=17`
 
 Pushes `message` onto a local buffer to send to Drifter server. If a connection currently doesn't exist, it starts connecting. Once Drifter sender is connected, it sends all the messages in the buffer.
 
@@ -99,7 +100,7 @@ _**CAUTION: reserved for internal use**_
 If there are messages in the buffer, sends the message to `self.hostname:self.port` via HTTPS over the currently open connection. The request looks like:
 
 ```
-GET /?<self.capability>&<message> HTTP/1.1\r\n
+GET <self.path>?<self.capability>&<message> HTTP/1.1\r\n
 HOST: <self.hostname>\r\n
 \r\n
 ```

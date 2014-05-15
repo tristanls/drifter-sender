@@ -39,7 +39,7 @@ var url = require('url');
 var test = module.exports = {};
 
 test['sends message to host via TLS'] = function (test) {
-    test.expect(3);
+    test.expect(4);
     var capability = "02hAozGflu";
     var message = "service=mysql&server=db15&unit=B&value=17";
 
@@ -55,6 +55,7 @@ test['sends message to host via TLS'] = function (test) {
         test.equal(req.method, 'GET');
         test.equal(req.headers.host, 'localhost');
         var reqUrl = url.parse(req.url);
+        test.equal(reqUrl.pathname, '/1/log');
         test.equal(reqUrl.query, capability + '&' + message);
         res.writeHead(503);
         res.end();
@@ -68,7 +69,8 @@ test['sends message to host via TLS'] = function (test) {
         var drifter = new Drifter({
             capability: capability,
             hostname: 'localhost',
-            port: 4443
+            port: 4443,
+            path: "/1/log"
         });
         drifter.on('error', function (error) {
             console.log(error);
@@ -78,7 +80,7 @@ test['sends message to host via TLS'] = function (test) {
 };
 
 test['sends multiple buffered messages to host via TLS'] = function (test) {
-    test.expect(9);
+    test.expect(12);
     var capability = "02hAozGflu";
     var message1 = "service=mysql&server=db15&unit=B&value=17";
     var message2 = "service=mysql&server=db15&unit=B&value=18";
@@ -100,6 +102,7 @@ test['sends multiple buffered messages to host via TLS'] = function (test) {
         test.equal(req.method, 'GET');
         test.equal(req.headers.host, 'localhost');
         var reqUrl = url.parse(req.url);
+        test.equal(reqUrl.pathname, '/1/log');
         test.equal(reqUrl.query, capability + '&' + expected[expectedIndex]);
         expectedIndex++;
         res.writeHead(503);
@@ -124,7 +127,8 @@ test['sends multiple buffered messages to host via TLS'] = function (test) {
         var drifter = new Drifter({
             capability: capability,
             hostname: 'localhost',
-            port: 4443
+            port: 4443,
+            path: "/1/log"
         });
         drifter.on('error', function (error) {
             console.log(error);
@@ -145,7 +149,8 @@ test['does not schedule connect() call multiple times'] = function (test) {
     var drifter = new Drifter({
         capability: capability,
         hostname: 'localhost',
-        port: 4443
+        port: 4443,
+        path: "/1/log"
     });
 
     drifter.connect = function () {
