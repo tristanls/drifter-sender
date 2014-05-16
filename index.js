@@ -50,6 +50,9 @@ var TELEMETRY_SECURE_CONNECT = 'module=' + TELEMETRY_MODULE
     * `hostname`: _String_ Drifter hostname to connect to.
     * `path`: _String_ Drifter path to connect to.
     * `port`: _Number_ _(Default: 443)_ Port to connect to.
+    * `rejectUnauthorized`: _Boolean_ _(Default: true)_ If true, the server
+        certificate is verified against the list of supplied CAs. An 'error'
+        event is emitted if verification fails.
 */
 var Drifter = module.exports = function Drifter(config) {
     var self = this;
@@ -64,6 +67,11 @@ var Drifter = module.exports = function Drifter(config) {
     self.hostname = config.hostname;
     self.path = config.path;
     self.port = config.port;
+    if (typeof config.rejectUnauthorized === "undefined") {
+        self.rejectUnauthorized = true;
+    } else {
+        self.rejectUnauthorized = config.rejectUnauthorized;
+    }
     self.timers = {
         secureConnect: null
     };
@@ -80,7 +88,9 @@ Drifter.prototype.connect = function connect() {
     var self = this;
 
     self.timers.secureConnect = process.hrtime();
-    self.connection = tls.connect(self.port, self.hostname);
+    self.connection = tls.connect(self.port, self.hostname, {
+        rejectUnauthorized: self.rejectUnauthorized
+    });
     self.connecting = false; // done connecting;
     self.connection.setEncoding('utf8');
 

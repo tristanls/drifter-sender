@@ -36,7 +36,8 @@ var drifter = new Drifter({
     capability: '02hAozGflu',
     hostname: 'localhost',
     path: '/1/log',
-    port: 4443
+    port: 4443,
+    rejectUnauthorized: false
 });
 
 // optionally listen for responses from Drifter (expect 503)

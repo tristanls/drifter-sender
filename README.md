@@ -25,7 +25,8 @@ var drifter = new Drifter({
     capability: '02hAozGflu',
     hostname: 'localhost',
     path: '/1/log',
-    port: 4443
+    port: 4443,
+    rejectUnauthorized: false
 });
 
 // optionally listen for responses from Drifter (expect 503)
@@ -76,6 +77,7 @@ drifter.send("service=mysql&server=db15&unit=B&value=17");
   * `hostname`: _String_ Drifter hostname to connect to.
   * `path`: _String_ Drifter path to connect to.
   * `port`: _Number_ _(Default: 443)_ Port to connect to.
+  * `rejectUnauthorized`: _Boolean_ _(Default: true)_ If true, the server certificate is verified against the list of supplied CAs. An 'error' event is emitted if verification fails.
 
 Creates a new Drifter sender instance.
 
